@@ -196,11 +196,11 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                 facing_position = move_position               
                 check_char = 1
         for items in items_position :
-            if (move_position == items_position['position']) :
+            if (move_position == items['position']) :
                 player_position = last_position                
                 facing_position = move_position               
                 check_item = 1
-        if check_char == 0 and check_char == 0:
+        if check_char == 0 and check_item == 0:
             player_position = move_position
             last_position = player_position            
     elif(square == 'wild'):
