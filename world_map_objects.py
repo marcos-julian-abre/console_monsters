@@ -48,26 +48,18 @@ world_map_object = [
         'key' : ",",
         "type" : 'section',  
         "section" : "B"      
-    },    
-    {
-        'key' : "C",
-        "type" : 'character',  
-        "section" : "B"      
-    },    
-    {
-        'key' : "T",
-        "type" : 'trainer',  
-        "section" : "B"      
-    },    
+    },  
     {
         'key' : "$",
-        "type" : 'pc',  
-        "section" : "B"      
-    },    
+        "type" : 'pc'   
+    },
     {
-        'key' : "◦",
-        "type" : 'item',  
-        "section" : "B"      
-    }          
+        'key' : "!",
+        "type" : 'obstacle'     
+    },
+        {
+        'key' : "^",
+        "type" : 'obstacle'     
+    }
 ]
 

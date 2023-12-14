@@ -90,6 +90,7 @@ items_position = []
 
 for positions in route[route_index]["character"] :
     characters_position.append(positions)
+    importlib.reload(state)
 
 for items in route[route_index]["items"] :
     if state.items[0][items["id"]] == True :
@@ -144,18 +145,30 @@ def get_interaction(facing_position, characters_position) :
     for character in characters_position :
         if facing_position == character['position'] :            
             display_interactions(character)
-
     return 
 
 def get_pc(facing_position, map_layout) : 
-
     for row_index, row in enumerate(map_layout):
         for col_index, cell in enumerate(row):
             if (row_index, col_index) == facing_position :
                 if cell == "$" :
                     display_pc()        
-
     return
+
+def get_obstacle(facing_position, map_layout) :     
+    if state.cut == True :
+        for row_index, row in enumerate(map_layout):
+            for col_index, cell in enumerate(row):
+                if (row_index, col_index) == facing_position :
+                    if cell == "!" :   
+                        map_layout[row_index][col_index] = "."
+    if state.rock_smash == True :
+        for row_index, row in enumerate(map_layout):
+            for col_index, cell in enumerate(row):
+                if (row_index, col_index) == facing_position :
+                    if cell == "^":   
+                        map_layout[row_index][col_index] = "."
+    return map_layout
 
 
 def get_items(route_index, route) :
@@ -176,6 +189,7 @@ def get_map_item(facing_position, items_position) :
 
  #UPDATE WHEN ADDING TEAM FUNCTIONALITY   
 def check_surf():
+    importlib.reload(state)
     if state.surf == True :
         return True
     else :
@@ -247,8 +261,11 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
             player_position = last_position 
             facing_position = move_position 
     elif(square == "pc") :
-            player_position = last_position
-            facing_position = move_position
+        player_position = last_position
+        facing_position = move_position
+    elif(square == "obstacle") :
+        player_position = last_position
+        facing_position = move_position
 
         
     return (player_position, last_position, section, map_route, facing_position)
@@ -274,10 +291,12 @@ while True:
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
     elif keyboard.is_pressed('z'): 
+        importlib.reload(state)
         get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
+        map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
-    time.sleep(0.2)
+    time.sleep(0.1)
 

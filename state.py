@@ -1,3 +1,5 @@
 
 surf = True
-items = [{1: True, 2: True}]
+cut = True
+rock_smash = True
+items = [{1: False, 2: False}]
