@@ -9,6 +9,7 @@ from system_combat import display_combat
 import pdb
 import state
 from system_interactions import display_interactions, display_pc, display_item
+import importlib
 
 
 current_route = "01"
@@ -159,6 +160,7 @@ def get_pc(facing_position, map_layout) :
 
 def get_items(route_index, route) :
     items_position = []
+    importlib.reload(state)
     for items in route[route_index]["items"] :
         if state.items[0][items['id']] == True :
             items_position.append(items)
@@ -275,6 +277,7 @@ while True:
         get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
+        items_position = get_items(route_index, route) 
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
     time.sleep(0.2)
 
