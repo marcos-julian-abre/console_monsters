@@ -37,15 +37,10 @@ def display_pc() :
 def display_item(item) :
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
     
-    print(item["name"])
-    
-
+    print(item["name"])   
     print ("Press C to return to map")
 
-
-    update_item_state(item["id"] - 1, False)
-    
-    
+    update_state(item["id"] - 1, False, "items")   
 
     while True:
         if keyboard.is_pressed('c'):        
@@ -53,7 +48,25 @@ def display_item(item) :
         
 
 
-def update_item_state(item_index, new_state):
+def display_engage(trainer) :
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
+    
+    print(trainer["name"])
+    print(trainer["message"])
+    print(trainer["sprite"])
+
+    print ("Press C to return to map")
+
+    update_state(trainer["id"] - 1, False, 'trainers')   
+
+    while True:
+        if keyboard.is_pressed('c'):        
+            return 
+        
+
+
+
+def update_state(item_index, new_state, update_type):
 
     state_file_path = os.path.join(os.path.dirname(__file__), 'state.py')
 
@@ -67,7 +80,7 @@ def update_item_state(item_index, new_state):
 
         # Find the 'items' dictionary node
         for node in ast.walk(tree):
-            if isinstance(node, ast.Assign) and len(node.targets) == 1 and node.targets[0].id == 'items':
+            if isinstance(node, ast.Assign) and len(node.targets) == 1 and node.targets[0].id == update_type:
                 # Update the item in the dictionary within the list
                 node.value.elts[0].values[item_index] = ast.Constant(value=new_state)
 
@@ -83,3 +96,4 @@ def update_item_state(item_index, new_state):
 
 
     return
+

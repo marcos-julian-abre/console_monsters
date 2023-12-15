@@ -8,8 +8,9 @@ import random
 from system_combat import display_combat
 import pdb
 import state
-from system_interactions import display_interactions, display_pc, display_item
+from system_interactions import display_interactions, display_pc, display_item, display_engage
 import importlib
+
 
 
 current_route = "01"
@@ -18,7 +19,7 @@ route_index = 0
 starting_position = route[route_index]['starting_position']
 
 
-def display_map(player_position, game_route, game_map, characters_position, facing_position, items_position):
+def display_map(player_position, game_route, game_map, characters_position, facing_position, items_position, trainers_position):
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
 
     print(section)
@@ -34,6 +35,10 @@ def display_map(player_position, game_route, game_map, characters_position, faci
             for character in characters_position :
                 if (row_index, col_index) == character['position'] :
                     print("C", end=" ")  
+                    check_char = 1
+            for trainer in trainers_position :
+                if (row_index, col_index) == trainer['position'] :
+                    print("T", end=" ")  
                     check_char = 1
             for item in items_position :
                  if (row_index, col_index) == item['position'] :
@@ -77,18 +82,21 @@ player_position = (1,1)
 facing_position = (2,1)
 last_position = player_position
 characters_position = []
+trainers_position = []
 items_position = []
 
 for positions in route[route_index]["character"] :
-    characters_position.append(positions)
+    characters_position.append(positions)    
 
+for positions in route[route_index]["trainer"] :
+   trainers_position.append(positions)
 
 for items in route[route_index]["items"] :
     if state.items[0][items["id"]] == True :
         items_position.append(items)    
 
 # Display the initial map with the player
-display_map(player_position, current_route, route[0]['layout'], characters_position, facing_position, items_position)
+display_map(player_position, current_route, route[0]['layout'], characters_position, facing_position, items_position, trainers_position)
 
 
 
@@ -140,6 +148,30 @@ def get_encounter(route, section, route_index):
             encounter_level =  random_level
 
             return (encounter_pokemon, encounter_level)
+
+
+
+def get_engage(player_position, facing_position, trainers_position, moving) : #UPDATE WHEN COMBAT IS IMPLEMENTED
+    importlib.reload(state)    
+    if moving == True :
+        for trainer in trainers_position :
+            if state.trainers[0][trainer["id"]] == True :
+                for pattern in trainer["pattern"] :
+                    for position in pattern["facing_position"] :
+                        for facing in position[trainer["patrol"]] :
+                            if facing['face'] == player_position :
+                                display_engage(trainer) 
+    if moving == False :
+        for trainer in trainers_position :
+            if state.trainers[0][trainer["id"]] == True :
+                if trainer["position"] == facing_position :
+                    display_engage(trainer)
+
+    return
+            
+    
+
+    
     
 
  
@@ -213,6 +245,76 @@ def get_characters(route_index, route, past_characters_position, player_position
 
 
 
+def get_trainers(route_index, route, past_trainers_position, player_position) :
+    trainers_position = []
+    trainer = []
+    check_route = 0    
+    check_pattern = 0
+
+    for trainers in route[route_index]["trainer"] :
+        for past_trainers in past_trainers_position :
+            if past_trainers['name'] == trainers["name"] :
+                check_route = 1    
+
+    for trainers in route[route_index]["trainer"] :
+        if trainers["type"] == "standing" :
+            trainers_position.append(trainers)             
+        if trainers["type"] == "patrol" :
+            if check_route == 0 :
+                trainers_position.append(trainers)
+
+    if check_route == 1 :
+        for past_position in past_trainers_position :
+            if past_position["type"] == "patrol" :
+                if check_pattern == 1 :
+                    break
+                elif past_position["patrol"] == 0 :
+                    for pattern in past_position["pattern"] :
+                        if pattern["starting_position"] == past_position["position"] :
+                            if pattern["going_position"] == True :
+                                trainer = past_position
+                                trainer["patrol"] = 1
+                                trainers_position.append(trainer)
+                                check_pattern = 1
+                                break
+                            else :
+                                if pattern["going_position"] != player_position :
+                                    trainer = past_position
+                                    trainer['position'] = pattern["going_position"]
+                                    trainers_position.append(trainer)
+                                    check_pattern = 1
+                                    break
+                                else :
+                                    trainer = past_position
+                                    trainers_position.append(trainer)
+                                    check_pattern = 1
+                                    break
+                elif past_position["patrol"] == 1 :
+                    for pattern in past_position["pattern"] :
+                        if pattern["starting_position"] == past_position["position"] :
+                            if pattern["coming_position"] == True :
+                                trainer = past_position
+                                trainer["patrol"] = 0
+                                trainers_position.append(trainer)
+                                check_pattern = 1
+                                break
+                            else :
+                                if pattern["coming_position"] != player_position : 
+                                    trainer = past_position
+                                    trainer['position'] = pattern["coming_position"]
+                                    trainers_position.append(trainer)
+                                    check_pattern = 1
+                                    break
+                                else :
+                                    trainer = past_position
+                                    trainers_position.append(trainer)
+                                    check_pattern = 1
+                                    break
+    
+    return trainers_position
+
+
+
 def get_interaction(facing_position, characters_position) :
     for character in characters_position :
         if facing_position == character['position'] :            
@@ -276,7 +378,7 @@ def check_surf():
 
        
     
-def map_logic(custom_map,move_position,last_position, route, section, map_route, route_index, characters_position, facing_position, items_position):  
+def map_logic(custom_map,move_position,last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position):  
     square = get_object_type(custom_map[move_position[0]][move_position[1]], world_map_object)
 
     if(square == 'wall') :
@@ -291,6 +393,11 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                 player_position = last_position                
                 facing_position = move_position               
                 check_char = 1
+        for trainers in trainers_position :            
+            if (move_position == trainers['position']) :  
+                player_position = last_position                
+                facing_position = move_position               
+                check_char = 1
         for items in items_position :
             if (move_position == items['position']) :
                 player_position = last_position                
@@ -300,7 +407,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
             player_position = move_position
             last_position = player_position     
 
-    elif(square == 'wild'):
+    elif(square == 'wild'): #UPDATE WHEN CATCH IS IMPLEMENTED
         player_position = move_position
         last_position = player_position
         encounter = random.randint(1, 20)
@@ -370,19 +477,22 @@ while True:
         move_position, facing_position = move_player("RIGHT", player_position, facing_position)    
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right','z']):
         map_route, map_layout, route_index = get_route(current_route, route)
-        player_position, last_position, section, current_route, facing_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position)  
+        player_position, last_position, section, current_route, facing_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position)  
         map_route, map_layout, route_index = get_route(current_route, route)  
-        characters_position = get_characters(route_index, route, characters_position, player_position)     
+        characters_position = get_characters(route_index, route, characters_position, player_position) 
+        trainers_position = get_trainers(route_index, route, trainers_position, player_position)    
         items_position = get_items(route_index, route) 
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
-        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
+        get_engage(player_position, facing_position, trainers_position, moving = True)
+        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     elif keyboard.is_pressed('z'): 
         importlib.reload(state)
-        get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED
+        get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED'
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
+        get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
-        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
+        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     time.sleep(0.15)
 
