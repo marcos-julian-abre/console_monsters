@@ -143,7 +143,7 @@ def get_encounter(route, section, route_index):
     
 
  
-def get_characters(route_index, route, past_characters_position) :
+def get_characters(route_index, route, past_characters_position, player_position) :
     characters_position = []
     character = []
     check_route = 0    
@@ -176,11 +176,17 @@ def get_characters(route_index, route, past_characters_position) :
                                 check_pattern = 1
                                 break
                             else :
-                                character = past_position
-                                character['position'] = pattern["going_position"]
-                                characters_position.append(character)
-                                check_pattern = 1
-                                break
+                                if pattern["going_position"] != player_position :
+                                    character = past_position
+                                    character['position'] = pattern["going_position"]
+                                    characters_position.append(character)
+                                    check_pattern = 1
+                                    break
+                                else :
+                                    character = past_position
+                                    characters_position.append(character)
+                                    check_pattern = 1
+                                    break
                 elif past_position["patrol"] == 1 :
                     for pattern in past_position["pattern"] :
                         if pattern["starting_position"] == past_position["position"] :
@@ -191,11 +197,17 @@ def get_characters(route_index, route, past_characters_position) :
                                 check_pattern = 1
                                 break
                             else :
-                                character = past_position
-                                character['position'] = pattern["coming_position"]
-                                characters_position.append(character)
-                                check_pattern = 1
-                                break
+                                if pattern["coming_position"] != player_position : 
+                                    character = past_position
+                                    character['position'] = pattern["coming_position"]
+                                    characters_position.append(character)
+                                    check_pattern = 1
+                                    break
+                                else :
+                                    character = past_position
+                                    characters_position.append(character)
+                                    check_pattern = 1
+                                    break
     
     return characters_position
 
@@ -360,7 +372,7 @@ while True:
         map_route, map_layout, route_index = get_route(current_route, route)
         player_position, last_position, section, current_route, facing_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position)  
         map_route, map_layout, route_index = get_route(current_route, route)  
-        characters_position = get_characters(route_index, route, characters_position)     
+        characters_position = get_characters(route_index, route, characters_position, player_position)     
         items_position = get_items(route_index, route) 
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
