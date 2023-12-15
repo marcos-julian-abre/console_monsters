@@ -13,7 +13,7 @@ import importlib
 
 
 
-current_route = "01"
+current_route = "PAL"
 section = 0
 route_index = 0
 starting_position = route[route_index]['starting_position']

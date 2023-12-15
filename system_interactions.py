@@ -4,21 +4,44 @@ import pdb
 import state
 import ast
 import astunparse
+import time
 
 
 
 def display_interactions(character) :
-    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
-    
-    print(character["name"])
-    print(character["message"])
-    print(character["sprite"])
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen    
+    i = 0
+    number_entries = - 1
 
-    print ("Press C to return to map")
+    print(character["message"][i]["entry"])
+    print ("Press C to continue.")
 
-    while True:
-        if keyboard.is_pressed('c'):        
-            return 
+    for entries in character["message"] :
+        number_entries = number_entries + 1
+
+    i = 1
+    if i <= number_entries :        
+        while True :
+            if keyboard.is_pressed('c'): 
+                os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
+                print(character["message"][i]["entry"])
+                print ("Press C to continue.")
+                while True :
+                    if keyboard.is_pressed('c'):   
+                        i = 2          
+                        if i <= number_entries :
+                            os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
+                            print(character["message"][i]["entry"])
+                            print ("Press C to continue.")
+                        else :
+                            return
+                    time.sleep(0.2)                             
+            time.sleep(0.2)             
+    else : 
+        while True :
+            if keyboard.is_pressed('c'):   
+                return
+      
         
 
 
