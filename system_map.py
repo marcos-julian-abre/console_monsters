@@ -17,18 +17,6 @@ section = 0
 route_index = 0
 starting_position = route[route_index]['starting_position']
 
-# Design your own map
-def get_route(current_route, route) :
-    for load_map in route :
-        if current_route == load_map['route'] :
-            map_route = load_map['route']
-            map_layout = load_map['layout']
-    
-    for index, obj in enumerate(route):
-        if obj['route'] == current_route:
-            route_index = index
-
-    return map_route, map_layout, route_index
 
 def display_map(player_position, game_route, game_map, characters_position, facing_position, items_position):
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
@@ -37,6 +25,7 @@ def display_map(player_position, game_route, game_map, characters_position, faci
     print(game_route)
     print(player_position)
     print(facing_position)
+    print(characters_position)
     check_char = 0 
     check_item = 0    
 
@@ -62,6 +51,7 @@ def display_map(player_position, game_route, game_map, characters_position, faci
     print ("Z -- Interact")
 
 
+
 def move_player(direction, player_position, facing_position):
     # Update player position based on the direction
     x, y = player_position
@@ -81,6 +71,7 @@ def move_player(direction, player_position, facing_position):
     return player_position, facing_position
 
 
+
 # Example player starting position
 player_position = (1,1)
 facing_position = (2,1)
@@ -90,7 +81,7 @@ items_position = []
 
 for positions in route[route_index]["character"] :
     characters_position.append(positions)
-    importlib.reload(state)
+
 
 for items in route[route_index]["items"] :
     if state.items[0][items["id"]] == True :
@@ -100,17 +91,34 @@ for items in route[route_index]["items"] :
 display_map(player_position, current_route, route[0]['layout'], characters_position, facing_position, items_position)
 
 
+
 def get_object_type(symbol, world_map_object):
     for obj in world_map_object:
         if obj['key'] == symbol:
             return obj['type']
+        
+
         
 def get_object_section(symbol, world_map_object):
     for obj in world_map_object:
         if obj['key'] == symbol:
             return obj['section']
         
+
         
+def get_route(current_route, route) :
+    for load_map in route :
+        if current_route == load_map['route'] :
+            map_route = load_map['route']
+            map_layout = load_map['layout']
+    
+    for index, obj in enumerate(route):
+        if obj['route'] == current_route:
+            route_index = index
+
+    return map_route, map_layout, route_index        
+
+
 
 def get_encounter(route, section, route_index):
     sum_rarity = 0
@@ -133,12 +141,64 @@ def get_encounter(route, section, route_index):
 
             return (encounter_pokemon, encounter_level)
     
+
  
-def get_characters(route_index, route) :
+def get_characters(route_index, route, past_characters_position) :
     characters_position = []
-    for positions in route[route_index]["character"] :
-        characters_position.append(positions)
+    character = []
+    check_route = 0    
+    check_pattern = 0
+
+    for characters in route[route_index]["character"] :
+        for past_characters in past_characters_position :
+            if past_characters['name'] == characters["name"] :
+                check_route = 1    
+
+    for characters in route[route_index]["character"] :
+        if characters["type"] == "standing" :
+            characters_position.append(characters)             
+        if characters["type"] == "patrol" :
+            if check_route == 0 :
+                characters_position.append(characters)
+
+    if check_route == 1 :
+        for past_position in past_characters_position :
+            if past_position["type"] == "patrol" :
+                if check_pattern == 1 :
+                    break
+                elif past_position["patrol"] == 0 :
+                    for pattern in past_position["pattern"] :
+                        if pattern["starting_position"] == past_position["position"] :
+                            if pattern["going_position"] == True :
+                                character = past_position
+                                character["patrol"] = 1
+                                characters_position.append(character)
+                                check_pattern = 1
+                                break
+                            else :
+                                character = past_position
+                                character['position'] = pattern["going_position"]
+                                characters_position.append(character)
+                                check_pattern = 1
+                                break
+                elif past_position["patrol"] == 1 :
+                    for pattern in past_position["pattern"] :
+                        if pattern["starting_position"] == past_position["position"] :
+                            if pattern["coming_position"] == True :
+                                character = past_position
+                                character["patrol"] = 0
+                                characters_position.append(character)
+                                check_pattern = 1
+                                break
+                            else :
+                                character = past_position
+                                character['position'] = pattern["coming_position"]
+                                characters_position.append(character)
+                                check_pattern = 1
+                                break
+    
     return characters_position
+
 
 
 def get_interaction(facing_position, characters_position) :
@@ -147,6 +207,8 @@ def get_interaction(facing_position, characters_position) :
             display_interactions(character)
     return 
 
+
+
 def get_pc(facing_position, map_layout) : 
     for row_index, row in enumerate(map_layout):
         for col_index, cell in enumerate(row):
@@ -154,6 +216,8 @@ def get_pc(facing_position, map_layout) :
                 if cell == "$" :
                     display_pc()        
     return
+
+
 
 def get_obstacle(facing_position, map_layout) :     
     if state.cut == True :
@@ -171,6 +235,7 @@ def get_obstacle(facing_position, map_layout) :
     return map_layout
 
 
+
 def get_items(route_index, route) :
     items_position = []
     importlib.reload(state)
@@ -180,11 +245,13 @@ def get_items(route_index, route) :
     return items_position
 
 
+
 def get_map_item(facing_position, items_position) :
     for item in items_position :
         if facing_position == item['position'] :            
             display_item(item)
     return 
+
 
 
  #UPDATE WHEN ADDING TEAM FUNCTIONALITY   
@@ -197,12 +264,13 @@ def check_surf():
 
        
     
-
 def map_logic(custom_map,move_position,last_position, route, section, map_route, route_index, characters_position, facing_position, items_position):  
     square = get_object_type(custom_map[move_position[0]][move_position[1]], world_map_object)
+
     if(square == 'wall') :
         player_position = last_position
         facing_position = move_position
+        
     elif(square == 'terrain'):
         check_char = 0
         check_item = 0
@@ -218,7 +286,8 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                 check_item = 1
         if check_char == 0 and check_item == 0:
             player_position = move_position
-            last_position = player_position            
+            last_position = player_position     
+
     elif(square == 'wild'):
         player_position = move_position
         last_position = player_position
@@ -226,10 +295,12 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         if(encounter <= route[route_index]['rate']) :
             encounter_pokemon, encounter_level = get_encounter(route, section, route_index)
             display_combat(world_map_object, player_position, pokemon, route, section, encounter_pokemon, encounter_level)
+
     elif(square == "section") :
         player_position = move_position        
         last_position = player_position
         section = get_object_section(custom_map[move_position[0]][move_position[1]], world_map_object)
+
     elif(square == "transport") :
         for exit in route[route_index]['exit'] :
             if exit['section'] == section :
@@ -242,7 +313,8 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                                     if come_from["from"] == route[route_index]['route'] :
                                         player_position = come_from["position"]
                                         section = 0 
-                                        facing_position = []                                       
+                                        facing_position = []             
+
     elif(square == "slope") :
         if (move_position[0] > last_position[0]) :
             jump_position =  move_position[0] + 1, move_position[1]
@@ -253,6 +325,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         else : 
             player_position = last_position
             facing_position = move_position
+
     elif(square == "water") :
         if check_surf() :
             player_position = move_position
@@ -260,9 +333,11 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         else :
             player_position = last_position 
             facing_position = move_position 
+
     elif(square == "pc") :
         player_position = last_position
         facing_position = move_position
+
     elif(square == "obstacle") :
         player_position = last_position
         facing_position = move_position
@@ -272,7 +347,6 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
 
 
 
-# Allow the player to move with directional keys until they choose to exit
 while True:
     if keyboard.is_pressed('up'):
         move_position, facing_position = move_player("UP", player_position, facing_position)
@@ -286,7 +360,7 @@ while True:
         map_route, map_layout, route_index = get_route(current_route, route)
         player_position, last_position, section, current_route, facing_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position)  
         map_route, map_layout, route_index = get_route(current_route, route)  
-        characters_position = get_characters(route_index, route)     
+        characters_position = get_characters(route_index, route, characters_position)     
         items_position = get_items(route_index, route) 
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
@@ -298,5 +372,5 @@ while True:
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position) 
-    time.sleep(0.1)
+    time.sleep(0.15)
 
