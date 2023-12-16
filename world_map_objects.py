@@ -4,6 +4,10 @@ world_map_object = [
         "type" : 'wall',        
     },
     {
+        'key' : '=',
+        "type" : 'wall',        
+    },
+    {
         'key' : ' ',
         "type" : 'wall',        
     },

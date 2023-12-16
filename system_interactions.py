@@ -42,7 +42,43 @@ def display_interactions(character) :
             if keyboard.is_pressed('c'):   
                 return
       
+
         
+def display_interactable(interactable):
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen    
+    i = 0
+    number_entries = - 1
+
+    print(interactable["message"][i]["entry"])
+    print ("Press C to continue.")
+
+    for entries in interactable["message"] :
+        number_entries = number_entries + 1
+
+    i = 1
+    if i <= number_entries :        
+        while True :
+            if keyboard.is_pressed('c'): 
+                os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
+                print(interactable["message"][i]["entry"])
+                print ("Press C to continue.")
+                while True :
+                    if keyboard.is_pressed('c'):   
+                        i = 2          
+                        if i <= number_entries :
+                            os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
+                            print(interactable["message"][i]["entry"])
+                            print ("Press C to continue.")
+                        else :
+                            return
+                    time.sleep(0.2)                             
+            time.sleep(0.2)             
+    else : 
+        while True :
+            if keyboard.is_pressed('c'):   
+                return
+
+
 
 
 def display_pc() :

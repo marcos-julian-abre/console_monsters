@@ -8,7 +8,7 @@ import random
 from system_combat import display_combat
 import pdb
 import state
-from system_interactions import display_interactions, display_pc, display_item, display_engage
+from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable
 import importlib
 
 
@@ -84,6 +84,7 @@ last_position = player_position
 characters_position = []
 trainers_position = []
 items_position = []
+interactables_position = []
 
 for positions in route[route_index]["character"] :
     characters_position.append(positions)    
@@ -93,7 +94,10 @@ for positions in route[route_index]["trainer"] :
 
 for items in route[route_index]["items"] :
     if state.items[0][items["id"]] == True :
-        items_position.append(items)    
+        items_position.append(items)  
+
+for interactables in route[route_index]["interactables"] :
+    interactables_position.append(interactables)  
 
 # Display the initial map with the player
 display_map(player_position, current_route, route[0]['layout'], characters_position, facing_position, items_position, trainers_position)
@@ -368,6 +372,13 @@ def get_map_item(facing_position, items_position) :
 
 
 
+def get_read(facing_position, interactables_position) :
+    for interactable in interactables_position :
+        if facing_position == interactable["position"] : 
+            display_interactable(interactable)
+    return
+
+
  #UPDATE WHEN ADDING TEAM FUNCTIONALITY   
 def check_surf():
     importlib.reload(state)
@@ -491,6 +502,7 @@ while True:
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
+        get_read(facing_position, interactables_position)
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
