@@ -5,6 +5,9 @@ import state
 import ast
 import astunparse
 import time
+from characters import character as character_data
+from interactables import interactable as interactable_data
+from  visuals import name_frame, message_frame
 
 
 
@@ -13,7 +16,14 @@ def display_interactions(character) :
     i = 0
     number_entries = - 1
 
-    print(character["message"][i]["entry"])
+    for char in character_data :
+        if char["char"] == character["char"] :
+            sprite = char["sprite"] 
+
+    name_frame(character["name"])    
+    print(sprite)
+    message_frame(character["message"][i]["entry"])
+    print()
     print ("Press C to continue.")
 
     for entries in character["message"] :
@@ -23,15 +33,21 @@ def display_interactions(character) :
     if i <= number_entries :        
         while True :
             if keyboard.is_pressed('c'): 
-                os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
-                print(character["message"][i]["entry"])
+                os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen      
+                name_frame(character["name"])    
+                print(sprite)
+                message_frame(character["message"][i]["entry"])
+                print()
                 print ("Press C to continue.")
                 while True :
                     if keyboard.is_pressed('c'):   
                         i = 2          
                         if i <= number_entries :
-                            os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
-                            print(character["message"][i]["entry"])
+                            os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen    
+                            name_frame(character["name"])    
+                            print(sprite)
+                            message_frame(character["message"][i]["entry"])
+                            print()
                             print ("Press C to continue.")
                         else :
                             return
@@ -49,7 +65,13 @@ def display_interactable(interactable):
     i = 0
     number_entries = - 1
 
-    print(interactable["message"][i]["entry"])
+    for inter in interactable_data :
+        if inter["type"] == interactable["type"] :
+            sprite = inter["sprite"] 
+
+    print(sprite)
+    message_frame(interactable["message"][i]["entry"])
+    print()
     print ("Press C to continue.")
 
     for entries in interactable["message"] :
@@ -60,14 +82,18 @@ def display_interactable(interactable):
         while True :
             if keyboard.is_pressed('c'): 
                 os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
-                print(interactable["message"][i]["entry"])
+                print(sprite)
+                message_frame(interactable["message"][i]["entry"])
+                print()
                 print ("Press C to continue.")
                 while True :
                     if keyboard.is_pressed('c'):   
                         i = 2          
                         if i <= number_entries :
                             os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
-                            print(interactable["message"][i]["entry"])
+                            print(sprite)
+                            message_frame(interactable["message"][i]["entry"])
+                            print()
                             print ("Press C to continue.")
                         else :
                             return
