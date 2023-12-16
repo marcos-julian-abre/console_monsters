@@ -49,6 +49,20 @@ def display_interactions(character) :
                             message_frame(character["message"][i]["entry"])
                             print()
                             print ("Press C to continue.")
+                            while True :
+                                if keyboard.is_pressed('c'): 
+                                    i = 3
+                                    if i <= number_entries :
+                                        os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen    
+                                        name_frame(character["name"])    
+                                        print(sprite)
+                                        message_frame(character["message"][i]["entry"])
+                                        print()
+                                        print ("Press C to continue.")
+                                        
+                                    else :
+                                        return
+                                time.sleep(0.2) 
                         else :
                             return
                     time.sleep(0.2)                             
@@ -95,6 +109,18 @@ def display_interactable(interactable):
                             message_frame(interactable["message"][i]["entry"])
                             print()
                             print ("Press C to continue.")
+                            while True :
+                                if keyboard.is_pressed('c'): 
+                                    i = 3
+                                    if i <= number_entries :
+                                        os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
+                                        print(sprite)
+                                        message_frame(interactable["message"][i]["entry"])
+                                        print()
+                                        print ("Press C to continue.")                                        
+                                    else :
+                                        return
+                                time.sleep(0.2) 
                         else :
                             return
                     time.sleep(0.2)                             
@@ -130,6 +156,7 @@ def display_item(item) :
     while True:
         if keyboard.is_pressed('c'):        
             return   
+        time.sleep(0.2)
         
 
 
@@ -147,6 +174,7 @@ def display_engage(trainer) :
     while True:
         if keyboard.is_pressed('c'):        
             return 
+        time.sleep(0.2)
         
 
 

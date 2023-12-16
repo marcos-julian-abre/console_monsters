@@ -78,8 +78,8 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (1,1)
-facing_position = (2,1)
+player_position = (7,11)
+facing_position = (8,11)
 last_position = player_position
 characters_position = []
 trainers_position = []
@@ -133,22 +133,24 @@ def get_route(current_route, route) :
 
 
 def get_encounter(route, section, route_index):
-    sum_rarity = 0
-    encounters = []    
+    sum_rarity = -1
+    encounters = []  
 
-    for obj in route[route_index]['sections'] :
-        if (obj['section'] == section) :
-            for pokemon in obj["wild"] :            
-                encounter_info = (pokemon['name'], sum_rarity + 1, pokemon['rarity'] + sum_rarity, pokemon['max_level'], pokemon['min_level'])
-                encounters.append(encounter_info)
+    for sec in route[route_index]['sections'] :
+        if (sec['section'] == section) :
+            for pokemon in sec["wild"] :            
+                encounter_info = pokemon
+                encounter_info["sum_rarity"] = sum_rarity + 1                
                 sum_rarity += pokemon['rarity'] 
+                encounter_info["rarity"] = sum_rarity 
+                encounters.append(encounter_info)
 
                 
-    random_encounter = random.randint(0,sum_rarity)
-    for obj in encounters :
-        if (random_encounter > obj[1] and random_encounter < obj[2]) :
-            random_level = random.randint(obj[4],obj[3])
-            encounter_pokemon = obj[0]
+    random_encounter = random.randint(1,sum_rarity)
+    for pokemon in encounters :
+        if (random_encounter > pokemon["sum_rarity"] and random_encounter < pokemon["rarity"]) :
+            random_level = random.randint(pokemon["level"]["min"],pokemon["level"]["max"])
+            encounter_pokemon = pokemon["name"]
             encounter_level =  random_level
 
             return (encounter_pokemon, encounter_level)
@@ -170,12 +172,14 @@ def get_engage(player_position, facing_position, trainers_position, moving) : #U
             if state.trainers[0][trainer["id"]] == True :
                 if trainer["position"] == facing_position :
                     display_engage(trainer)
-
     return
             
-    
 
-    
+
+def get_interactables() :
+    for interactables in route[route_index]["interactables"] :
+        interactables_position.append(interactables)  
+    return interactables_position
     
 
  
@@ -419,12 +423,16 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
             last_position = player_position     
 
     elif(square == 'wild'): #UPDATE WHEN CATCH IS IMPLEMENTED
+        rate = 0
         player_position = move_position
         last_position = player_position
-        encounter = random.randint(1, 20)
-        if(encounter <= route[route_index]['rate']) :
+        encounter = random.randint(1, 100)
+        for sec in route[route_index]['sections'] :
+            if sec["section"] == section :
+                rate = sec["rate"]
+        if(encounter <= rate) :   
             encounter_pokemon, encounter_level = get_encounter(route, section, route_index)
-            display_combat(world_map_object, player_position, pokemon, route, section, encounter_pokemon, encounter_level)
+            display_combat(encounter_pokemon, encounter_level)
 
     elif(square == "section") :
         player_position = move_position        
@@ -472,7 +480,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         player_position = last_position
         facing_position = move_position
 
-        
+
     return (player_position, last_position, section, map_route, facing_position)
 
 
@@ -493,7 +501,7 @@ while True:
         characters_position = get_characters(route_index, route, characters_position, player_position) 
         trainers_position = get_trainers(route_index, route, trainers_position, player_position)    
         items_position = get_items(route_index, route) 
-    if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
+    if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right', 'c']):
         get_engage(player_position, facing_position, trainers_position, moving = True)
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     elif keyboard.is_pressed('z'): 
@@ -502,6 +510,7 @@ while True:
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
+        interactables_position = get_interactables()
         get_read(facing_position, interactables_position)
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
