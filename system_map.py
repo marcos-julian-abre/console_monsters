@@ -176,7 +176,9 @@ def get_engage(player_position, facing_position, trainers_position, moving) : #U
             
 
 
-def get_interactables() :
+def get_interactables(current_route, route) :
+    trash1, trash2, route_index = get_route(current_route, route)
+    
     for interactables in route[route_index]["interactables"] :
         interactables_position.append(interactables)  
     return interactables_position
@@ -393,7 +395,7 @@ def check_surf():
 
        
     
-def map_logic(custom_map,move_position,last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position):  
+def map_logic(custom_map,move_position,last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position, interactables_position):  
     square = get_object_type(custom_map[move_position[0]][move_position[1]], world_map_object)
 
     if(square == 'wall') :
@@ -424,8 +426,26 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
 
     elif(square == 'wild'): #UPDATE WHEN CATCH IS IMPLEMENTED
         rate = 0
-        player_position = move_position
-        last_position = player_position
+        check_char = 0
+        check_item = 0
+        for characters in characters_position :            
+            if (move_position == characters['position']) :  
+                player_position = last_position                
+                facing_position = move_position               
+                check_char = 1
+        for trainers in trainers_position :            
+            if (move_position == trainers['position']) :  
+                player_position = last_position                
+                facing_position = move_position               
+                check_char = 1
+        for items in items_position :
+            if (move_position == items['position']) :
+                player_position = last_position                
+                facing_position = move_position               
+                check_item = 1
+        if check_char == 0 and check_item == 0:
+            player_position = move_position
+            last_position = player_position     
         encounter = random.randint(1, 100)
         for sec in route[route_index]['catch'] :
             if sec["section"] == section :
@@ -439,7 +459,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         last_position = player_position
         section = get_object_section(custom_map[move_position[0]][move_position[1]], world_map_object)
 
-    elif(square == "transport") :
+    elif(square == "transport") :          
         for exit in route[route_index]['exit'] :
             if exit['section'] == section :
                 map_route = exit['destiny']
@@ -451,7 +471,8 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                                     if come_from["from"] == route[route_index]['route'] :
                                         player_position = come_from["position"]
                                         section = 0 
-                                        facing_position = []             
+                                        facing_position = []            
+        interactables_position = get_interactables(map_route, route)                 
 
     elif(square == "slope") :
         if (move_position[0] > last_position[0]) :
@@ -481,7 +502,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         facing_position = move_position
 
 
-    return (player_position, last_position, section, map_route, facing_position)
+    return (player_position, last_position, section, map_route, facing_position, interactables_position)
 
 
 
@@ -496,13 +517,15 @@ while True:
         move_position, facing_position = move_player("RIGHT", player_position, facing_position)    
     if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right','z']):
         map_route, map_layout, route_index = get_route(current_route, route)
-        player_position, last_position, section, current_route, facing_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position)  
+        player_position, last_position, section, current_route, facing_position, interactables_position = map_logic(map_layout, move_position, last_position, route, section, map_route, route_index, characters_position, facing_position, items_position, trainers_position, interactables_position)  
         map_route, map_layout, route_index = get_route(current_route, route)  
         characters_position = get_characters(route_index, route, characters_position, player_position) 
         trainers_position = get_trainers(route_index, route, trainers_position, player_position)    
         items_position = get_items(route_index, route) 
-    if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right', 'c']):
-        get_engage(player_position, facing_position, trainers_position, moving = True)
+    if any(keyboard.is_pressed(key) for key in ['up', 'down', 'left', 'right']):
+        get_engage(player_position, facing_position, trainers_position, moving = True)      
+        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
+    if any(keyboard.is_pressed(key) for key in ['c']):
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     elif keyboard.is_pressed('z'): 
         importlib.reload(state)
@@ -510,7 +533,6 @@ while True:
         get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
-        interactables_position = get_interactables()
         get_read(facing_position, interactables_position)
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 

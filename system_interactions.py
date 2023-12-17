@@ -88,6 +88,7 @@ def display_interactable(interactable):
     print()
     print ("Press C to continue.")
 
+
     for entries in interactable["message"] :
         number_entries = number_entries + 1
 
@@ -120,16 +121,12 @@ def display_interactable(interactable):
                                         print ("Press C to continue.")                                        
                                     else :
                                         return
-                                time.sleep(0.2) 
                         else :
-                            return
-                    time.sleep(0.2)                             
-            time.sleep(0.2)             
+                            return     
     else : 
         while True :
             if keyboard.is_pressed('c'):   
                 return
-
 
 
 
