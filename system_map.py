@@ -136,7 +136,7 @@ def get_encounter(route, section, route_index):
     sum_rarity = -1
     encounters = []  
 
-    for sec in route[route_index]['sections'] :
+    for sec in route[route_index]['catch'] :
         if (sec['section'] == section) :
             for pokemon in sec["wild"] :            
                 encounter_info = pokemon
@@ -427,7 +427,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         player_position = move_position
         last_position = player_position
         encounter = random.randint(1, 100)
-        for sec in route[route_index]['sections'] :
+        for sec in route[route_index]['catch'] :
             if sec["section"] == section :
                 rate = sec["rate"]
         if(encounter <= rate) :   
