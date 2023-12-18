@@ -5,23 +5,28 @@ route = [
         "starting_position" : [
             {
             "from" : "01",
-            "position" : (2,9)
+            "position" : (2,9),
+            "section" : "A"
             },
             {
             "from" : "21",
-            "position" : (16,6)
+            "position" : (16,6),
+            "section" : "B"
             },
             {
             "from" : "PAL_H1",
-            "position" : (7,11)
+            "position" : (7,11),
+            "section" : "E"
             },
             {
             "from" : "PAL_H2",
-            "position" : (7,4)
+            "position" : (7,4),
+            "section" : "C"
             },
             {
             "from" : "PAL_H4",
-            "position" : (13,12)
+            "position" : (13,12),
+            "section" : "D"
             },
         ],
         "layout" : [ #18/18
@@ -184,11 +189,13 @@ route = [
         "starting_position" : [
             {
             "from" : "PAL",
-            "position" : (33,9)
+            "position" : (33,9),
+            "section" : "A"
             },
             {
             "from" : "VID",
-            "position" : (2,10)
+            "position" : (2,10),
+            "section" : "B"
             },
         ],
         "layout" : [ #20/36
@@ -355,15 +362,18 @@ route = [
         "starting_position" : [
             {
             "from" : "01",
-            "position" : (27,14)
+            "position" : (27,14),
+            "section" : "A"
             },
             {
             "from" : "02",
-            "position" : (2,13)
+            "position" : (2,13),
+            "section" : "B"
             },
             {
             "from" : "22",
-            "position" : (14,2)
+            "position" : (14,2),
+            "section" : "C"
             },
         ],
         "layout" : [ #30/30
@@ -630,9 +640,10 @@ route = [
         "starting_position" : [
             {
             "from" : "VID",
-            "position" : (7,26)
-            },
-        ],
+            "position" : (7,26),
+            "section" : "A"
+            },            
+        ],        
         "layout" : [ #20/29                                        #10                                               #20                                     #28
                 ['|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|', '|'],#0
                 ['|', '|', '|', '|', ' ', ' ', ' ', '|', '|', '|', '.', '.', '.', '.', '.', '.', '.', '.', '.', '|', '.', '.', '.', '.', '.', '|', '.', '.', '|'],
@@ -760,7 +771,8 @@ route = [
         "starting_position" : [
             {
             "from" : "PAL",
-            "position" : (6,2)
+            "position" : (6,2),
+            "section" : "A"
             },
         ],
         "layout" : [ #7/6
@@ -845,11 +857,13 @@ route = [
         "starting_position" : [
             {
             "from" : "PAL",
-            "position" : (6,2)
+            "position" : (6,2),
+            "section" : "A"
             },
             {
             "from" : "PAL_H3",
-            "position" : (1,5)
+            "position" : (1,5),
+            "section" : "B"
             },
         ],
         "layout" : [ #7/6
@@ -939,7 +953,8 @@ route = [
         "starting_position" : [            
             {
             "from" : "PAL_H2",
-            "position" : (1,5)
+            "position" : (1,5),
+            "section" : "A"
             },
         ],
         "layout" : [ #7/6

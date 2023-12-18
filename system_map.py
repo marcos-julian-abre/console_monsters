@@ -14,7 +14,7 @@ import importlib
 
 
 current_route = "PAL"
-section = 0
+section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
 
@@ -470,7 +470,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                                 for come_from in destiny_route['starting_position'] :
                                     if come_from["from"] == route[route_index]['route'] :
                                         player_position = come_from["position"]
-                                        section = 0 
+                                        section = come_from["section"]
                                         facing_position = []            
         interactables_position = get_interactables(map_route, route)                 
 
