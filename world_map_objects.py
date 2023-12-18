@@ -59,6 +59,16 @@ world_map_object = [
         "section" : "C"      
     },  
     {
+        'key' : "•",
+        "type" : 'section',  
+        "section" : "D"      
+    },  
+    {
+        'key' : "∙",
+        "type" : 'section',  
+        "section" : "E"      
+    },  
+    {
         'key' : "$",
         "type" : 'pc'   
     },
