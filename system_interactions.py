@@ -8,6 +8,7 @@ import time
 from characters import character as character_data
 from interactables import interactable as interactable_data
 from  visuals import name_frame, message_frame
+from items import item as item_data
 
 
 
@@ -145,7 +146,13 @@ def display_pc() :
 def display_item(item) :
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
     
-    print(item["name"])   
+    for items in item_data :
+        if items["name"] == item["name"] :
+            new_item = items["sprite"]
+    
+    name_frame(item["name"])
+    print(new_item["sprite"])   
+    message_frame(item["description"])
     print ("Press C to return to map")
 
     update_state(item["id"] - 1, False, "items")   

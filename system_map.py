@@ -13,7 +13,7 @@ import importlib
 
 
 
-current_route = "PAL"
+current_route = "02_a"
 section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
@@ -78,8 +78,8 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (7,11)
-facing_position = (8,11)
+player_position = (57,6)
+facing_position = (57,7)
 last_position = player_position
 characters_position = []
 trainers_position = []
@@ -471,7 +471,7 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
                                     if come_from["from"] == route[route_index]['route'] :
                                         player_position = come_from["position"]
                                         section = come_from["section"]
-                                        facing_position = []            
+                                        facing_position = []       
         interactables_position = get_interactables(map_route, route)                 
 
     elif(square == "slope") :
