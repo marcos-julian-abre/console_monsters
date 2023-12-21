@@ -146,7 +146,7 @@ def get_encounter(route, section, route_index):
                 encounters.append(encounter_info)
 
                 
-    random_encounter = random.randint(1,sum_rarity)
+    random_encounter = random.randint(1,sum_rarity - 1)
     for pokemon in encounters :
         if (random_encounter > pokemon["sum_rarity"] and random_encounter < pokemon["rarity"]) :
             random_level = random.randint(pokemon["level"]["min"],pokemon["level"]["max"])
