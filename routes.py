@@ -1182,8 +1182,374 @@ route = [
             "destiny" : "02_H1"            
         },
         ],
-        "character" :[],
-        "trainer" : [],
+        "character" :[
+            {
+                "char" : "blonde_man",
+                "name" : "Adventurer Thomas",
+                "type" : "standing",                
+                "patrol" : 1,
+                "position" : (39,17),
+                "pattern" : [],                
+                "message" : [
+                    {
+                        "entry" : "I came here with some friends to catch us some bug pokemon.",
+                    }, 
+                    {
+                        "entry" : "They are all itching to get into some pokemon battles!",
+                    }, 
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 0
+                }
+                ],
+                
+            },
+            {
+                "char" : "blonde_man",
+                "name" : "Adventurer Clayton",
+                "type" : "standing",                
+                "patrol" : 1,
+                "position" : (39,26),
+                "pattern" : [],                
+                "message" : [
+                    {
+                        "entry" : "I was throwing pokeballs to catch pokemon and i ran out...",
+                    }, 
+                    {
+                        "entry" : "That's why you cant have enough pokeballs.",
+                    }, 
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 0
+                }
+                ],
+                
+            }
+            ],
+        "trainer" : [
+            {   
+                "char" : "bugcatcher",
+                "name" : "Bug Catcher Rick",
+                "id" : 1,
+                "type" : "standing",
+                "team" : [
+                    {
+                        "pokemon" : "Weedle",
+                        "level" : 8
+                    },
+                    {
+                        "pokemon" : "Caterpie",
+                        "level" : 8
+                    },
+                ],
+                "pattern" : [ 
+                    {
+                        "starting_position" : (28,27),
+                        "facing_position" : [
+                            {
+                                0 : [                                    
+                                    {
+                                        "face" : (28,26)
+                                    },  
+                                    {
+                                        "face" : (28,25)
+                                    },   
+                                ]
+                            }
+                        ],
+                    },
+                ],
+                "patrol" : 0,
+                "position" : (28,27),
+                "message" : [
+                    {
+                        0 : [
+                            {
+                                "entry" : "Hey!, you have pokemon. Come On! Let's Battle!"
+                            },
+                        ],
+                    },
+                    {                        
+                        1 : [
+                            {
+                                "entry" : "No! Caterpie, can't hack it!"
+                            }
+                        ],
+                    },
+                    {                        
+                        2 : [
+                            {
+                                "entry" : "Shh, you will scare the bugs away. Other time, okay ?"
+                            }
+                        ]
+                    },
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 72
+                }
+                ],
+            }, 
+            {   
+                "char" : "bugcatcher",
+                "name" : "Bug Catcher Doug",
+                "id" : 2,
+                "type" : "standing",
+                "team" : [
+                    {
+                        "pokemon" : "Weedle",
+                        "level" : 9
+                    },
+                    {
+                        "pokemon" : "Weedle",
+                        "level" : 9
+                    },
+                    {
+                        "pokemon" : "Kakuna",
+                        "level" : 9
+                    },
+                ],
+                "pattern" : [ 
+                    {
+                        "starting_position" : (11,25),
+                        "facing_position" : [
+                            {
+                                0 : [                                    
+                                    {
+                                        "face" : (11,24)
+                                    },  
+                                    {
+                                        "face" : (11,23)
+                                    },   
+                                ]
+                            }
+                        ],
+                    },
+                ],
+                "patrol" : 0,
+                "position" : (11,25),
+                "message" : [
+                    {
+                        0 : [
+                            {
+                                "entry" : "Yo! You can't jam out if you're a pokemon trainer."
+                            },
+                        ],
+                    },
+                    {                        
+                        1 : [
+                            {
+                                "entry" : "Mmhh.."
+                            }
+                        ],
+                    },
+                    {                        
+                        2 : [
+                            {
+                                "entry" : "That totally stinks, i gonna catch some stronger ones."
+                            }
+                        ]
+                    },
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 91
+                }
+                ],
+            }, 
+            {   
+                "char" : "bugcatcher",
+                "name" : "Bug Catcher Anthony",
+                "id" : 3,
+                "type" : "standing",
+                "team" : [
+                    {
+                        "pokemon" : "Weedle",
+                        "level" : 9
+                    },
+                    {
+                        "pokemon" : "Caterpie",
+                        "level" : 10
+                    }
+                ],
+                "pattern" : [ 
+                    {
+                        "starting_position" : (3,26),
+                        "facing_position" : [
+                            {
+                                0 : [                                    
+                                    {
+                                        "face" : (2,26)
+                                    },  
+                                    {
+                                        "face" : (1,26)
+                                    },   
+                                ]
+                            }
+                        ],
+                    },
+                ],
+                "patrol" : 0,
+                "position" : (3,26),
+                "message" : [
+                    {
+                        0 : [
+                            {
+                                "entry" : "I may be little, but i won't like it if you go easy on me!"
+                            },
+                        ],
+                    },
+                    {                        
+                        1 : [
+                            {
+                                "entry" : "Oh boo. Nothing went right."
+                            }
+                        ],
+                    },
+                    {                        
+                        2 : [
+                            {
+                                "entry" : "I lost my whole allowance..."
+                            }
+                        ]
+                    },
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 96
+                }
+                ],
+            }, 
+            {   
+                "char" : "bugcatcher",
+                "name" : "Bug Catcher Charlie",
+                "id" : 4,
+                "type" : "standing",
+                "team" : [
+                    {
+                        "pokemon" : "Metapod",
+                        "level" : 9
+                    },
+                    {
+                        "pokemon" : "Metapod",
+                        "level" : 9
+                    },
+                    {
+                        "pokemon" : "Metapod",
+                        "level" : 9
+                    }
+                ],
+                "pattern" : [ 
+                    {
+                        "starting_position" : (1,9),
+                        "facing_position" : [
+                            {
+                                0 : [                                    
+                                    {
+                                        "face" : (2,9)
+                                    },  
+                                    {
+                                        "face" : (3,9)
+                                    },   
+                                ]
+                            }
+                        ],
+                    },
+                ],
+                "patrol" : 0,
+                "position" : (1,9),
+                "message" : [
+                    {
+                        0 : [
+                            {
+                                "entry" : "Did you know that pokemon evolve ?"
+                            },
+                        ],
+                    },
+                    {                        
+                        1 : [
+                            {
+                                "entry" : "Oh i lost."
+                            }
+                        ],
+                    },
+                    {                        
+                        2 : [
+                            {
+                                "entry" : "Bug pokemon evolve quickly, they're a lot of fun!"
+                            }
+                        ]
+                    },
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 96
+                }
+                ],
+            }, 
+            {   
+                "char" : "bugcatcher",
+                "name" : "Bug Catcher Sammy",
+                "id" : 5,
+                "type" : "standing",
+                "team" : [
+                    {
+                        "pokemon" : "Kakuna",
+                        "level" : 12
+                    },
+                ],
+                "pattern" : [ 
+                    {
+                        "starting_position" : (12,1),
+                        "facing_position" : [
+                            {
+                                0 : [                                    
+                                    {
+                                        "face" : (12,2)
+                                    },  
+                                    {
+                                        "face" : (12,3)
+                                    },   
+                                ]
+                            }
+                        ],
+                    },
+                ],
+                "patrol" : 0,
+                "position" : (12,1),
+                "message" : [
+                    {
+                        0 : [
+                            {
+                                "entry" : "Hey ! Wait Up! What's the hurry ? What's the rush ?"
+                            },
+                        ],
+                    },
+                    {                        
+                        1 : [
+                            {
+                                "entry" : "I give up! You're good at this."
+                            }
+                        ],
+                    },
+                    {                        
+                        2 : [
+                            {
+                                "entry" : "Sometimes you can find stuff on the ground."
+                            }
+                        ]
+                    },
+                ],
+                "reward" : [{
+                    "item" : 0,
+                    "money" : 108
+                }
+                ],
+            },                            
+                ],
+                
         "items" : [           
             {         
                 "id" : 2,   
@@ -1211,6 +1577,78 @@ route = [
             }
             ],
         "interactables" : [
+            {   
+                "type" : "sign_1",
+                "position" : (41,19),
+                "message" : [
+                    {
+                        "entry" : "TRAINER TIPS!"
+                    },
+                    {
+                        "entry" : "Weaken wild pokemon before attempting to capture them."
+                    },
+                    {
+                        "entry" : "When healthy they may escape!"
+                    },
+                ]
+            },
+            {   
+                "type" : "sign_1",
+                "position" : (40,23),
+                "message" : [
+                    {
+                        "entry" : "TRAINER TIPS!"
+                    },
+                    {
+                        "entry" : "If you want to avoid battles, stay away from grassy areas. "
+                    },
+                ]
+            },
+            {   
+                "type" : "sign_1",
+                "position" : (28,17),
+                "message" : [
+                    {
+                        "entry" : "For poison use antidotes!, you can buy them in the poke mart."
+                    },
+                ]
+            },
+            {   
+                "type" : "sign_1",
+                "position" : (16,25),
+                "message" : [
+                    {
+                        "entry" : "TRAINER TIPS!"
+                    },
+                    {
+                        "entry" : "Contact Prof. Oak via pc to get your pokedex evaluated. "
+                    },
+                ]
+            },
+            {   
+                "type" : "sign_1",
+                "position" : (20,5),
+                "message" : [
+                    {
+                        "entry" : "TRAINER TIPS!"
+                    },
+                    {
+                        "entry" : "You can't catch a pokemon that belongs to someone else."
+                    },
+                ]
+            },
+            {   
+                "type" : "sign_1",
+                "position" : (7,3),
+                "message" : [
+                    {
+                        "entry" : "Leaving Viridian Forest!"
+                    },
+                    {
+                        "entry" : "Pewter City ahead."
+                    },
+                ]
+            },
         ]
     },
 

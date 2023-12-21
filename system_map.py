@@ -169,9 +169,8 @@ def get_engage(player_position, facing_position, trainers_position, moving) : #U
                                 display_engage(trainer) 
     if moving == False :
         for trainer in trainers_position :
-            if state.trainers[0][trainer["id"]] == True :
-                if trainer["position"] == facing_position :
-                    display_engage(trainer)
+            if trainer["position"] == facing_position :
+                display_engage(trainer)
     return
             
 

@@ -9,6 +9,7 @@ from characters import character as character_data
 from interactables import interactable as interactable_data
 from  visuals import name_frame, message_frame
 from items import item as item_data
+from trainers import trainer as trainer_data
 
 
 
@@ -160,16 +161,28 @@ def display_item(item) :
     while True:
         if keyboard.is_pressed('c'):        
             return   
-        time.sleep(0.2)
+        time.sleep(0.15)
         
 
 
 def display_engage(trainer) :
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
     
-    print(trainer["name"])
-    print(trainer["message"])
-    print(trainer["sprite"])
+    for trainers in trainer_data :
+        if trainers["char"] == trainer["char"] : 
+            sprite = trainers["sprite"]
+
+
+    pdb.set_trace(  )
+    name_frame(trainer["name"])
+    print(sprite)        
+    if state.trainers[0][trainer["id"]] == True:
+        message_frame(trainer["message"][0][0][0]["entry"])
+        
+    if state.trainers[0][trainer["id"]] == False:
+        message_frame(trainer["message"][2][2][0]["entry"])
+
+    print()        
 
     print ("Press C to return to map")
 
@@ -178,7 +191,7 @@ def display_engage(trainer) :
     while True:
         if keyboard.is_pressed('c'):        
             return 
-        time.sleep(0.2)
+        time.sleep(0.15)
         
 
 
