@@ -8,13 +8,13 @@ import random
 from system_combat import display_combat
 import pdb
 import state
-from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable
+from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable, display_healing, display_shop
 import importlib
 import routes
 
 
 
-current_route = "02_b"
+current_route = "VID"
 section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
@@ -79,8 +79,8 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (1,1)
-facing_position = (1,2)
+player_position = (22,13)
+facing_position = (22,14)
 last_position = player_position
 characters_position = []
 trainers_position = []
@@ -336,12 +336,16 @@ def get_interaction(facing_position, characters_position) :
 
 
 
-def get_pc(facing_position, map_layout) : 
+def get_action(facing_position, map_layout) : 
     for row_index, row in enumerate(map_layout):
         for col_index, cell in enumerate(row):
             if (row_index, col_index) == facing_position :
-                if cell == "$" :
-                    display_pc()        
+                if cell == "$" : #UPDATE WHEN PC
+                    display_pc()    
+                if cell == "+" : #UPDATE WHEN POKEMON TEAM
+                    display_healing()  
+                if cell == "@" : #UPDATE WHEN SHOP
+                    display_shop()       
     return
 
 
@@ -462,20 +466,29 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         last_position = player_position
         section = get_object_section(custom_map[move_position[0]][move_position[1]], world_map_object)
 
-    elif(square == "transport") :          
+    elif(square == "transport") :  
         for exit in route[route_index]['exit'] :
             if exit['section'] == section :
                 map_route = exit['destiny']
                 for position in route:
                     if position['route'] == exit['destiny'] :
                         for destiny_route in route :
-                            if destiny_route["route"] == map_route :                            
+                            if destiny_route["route"] == map_route : 
                                 for come_from in destiny_route['starting_position'] :
                                     if come_from["from"] == route[route_index]['route'] :
                                         player_position = come_from["position"]
                                         section = come_from["section"]
-                                        facing_position = []       
-        interactables_position = get_interactables(map_route, route)                 
+                                        facing_position = []   
+                                        found_position = True
+                                        break
+                                if found_position:
+                                    break
+                        if found_position:
+                            break
+                if found_position:
+                    break
+
+        interactables_position = get_interactables(map_route, route) 
 
     elif(square == "slope") :
         if (move_position[0] > last_position[0]) :
@@ -501,6 +514,10 @@ def map_logic(custom_map,move_position,last_position, route, section, map_route,
         facing_position = move_position
 
     elif(square == "obstacle") :
+        player_position = last_position
+        facing_position = move_position
+
+    elif(square == "healing") :        
         player_position = last_position
         facing_position = move_position
 
@@ -533,7 +550,7 @@ while True:
     elif keyboard.is_pressed('z'): 
         importlib.reload(state)
         get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED'
-        get_pc(facing_position, map_layout) #UPDATE WHEN PC IS IMPLEMENTED
+        get_action(facing_position, map_layout) 
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
         get_read(facing_position, interactables_position)

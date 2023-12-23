@@ -76,9 +76,17 @@ world_map_object = [
         'key' : "!",
         "type" : 'obstacle'     
     },
-        {
+    {
         'key' : "^",
         "type" : 'obstacle'     
+    },
+    {
+        'key' : "+",
+        "type" : 'healing'     
+    },
+    {
+        'key' : "@",
+        "type" : 'healing'     
     }
 ]
 

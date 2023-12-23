@@ -164,6 +164,32 @@ def display_item(item) :
         if keyboard.is_pressed('c'):        
             return   
         time.sleep(0.15)
+
+
+        
+def display_healing() :
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
+
+    print("Healing")
+    print ("Press C to return to map")
+
+    while True:
+        if keyboard.is_pressed('c'):        
+            return   
+        time.sleep(0.15)
+
+
+
+def display_shop() :
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
+
+    print("Shop")
+    print ("Press C to return to map")
+
+    while True:
+        if keyboard.is_pressed('c'):        
+            return   
+        time.sleep(0.15)
         
 
 
