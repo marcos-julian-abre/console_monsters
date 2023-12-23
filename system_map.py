@@ -10,10 +10,11 @@ import pdb
 import state
 from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable
 import importlib
+import routes
 
 
 
-current_route = "02_a"
+current_route = "02_b"
 section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
@@ -78,8 +79,8 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (57,6)
-facing_position = (57,7)
+player_position = (1,1)
+facing_position = (1,2)
 last_position = player_position
 characters_position = []
 trainers_position = []
@@ -136,6 +137,9 @@ def get_encounter(route, section, route_index):
     sum_rarity = -1
     encounters = []  
 
+    
+    route = importlib.reload(routes).route
+
     for sec in route[route_index]['catch'] :
         if (sec['section'] == section) :
             for pokemon in sec["wild"] :            
@@ -146,9 +150,9 @@ def get_encounter(route, section, route_index):
                 encounters.append(encounter_info)
 
                 
-    random_encounter = random.randint(1,sum_rarity - 1)
+    random_encounter = random.randint(1,sum_rarity)
     for pokemon in encounters :
-        if (random_encounter > pokemon["sum_rarity"] and random_encounter < pokemon["rarity"]) :
+        if (random_encounter >= pokemon["sum_rarity"] and random_encounter <= pokemon["rarity"]) :
             random_level = random.randint(pokemon["level"]["min"],pokemon["level"]["max"])
             encounter_pokemon = pokemon["name"]
             encounter_level =  random_level

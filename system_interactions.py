@@ -64,11 +64,11 @@ def display_interactions(character) :
                                         
                                     else :
                                         return
-                                time.sleep(0.2) 
+                                time.sleep(0.1) 
                         else :
                             return
-                    time.sleep(0.2)                             
-            time.sleep(0.2)             
+                    time.sleep(0.1)                             
+            time.sleep(0.1)             
     else : 
         while True :
             if keyboard.is_pressed('c'):   
@@ -149,11 +149,13 @@ def display_item(item) :
     
     for items in item_data :
         if items["name"] == item["name"] :
-            new_item = items["sprite"]
+            sprite = items["sprite"]
+            description = items["description"]
     
     name_frame(item["name"])
-    print(new_item["sprite"])   
-    message_frame(item["description"])
+    print(sprite)   
+    message_frame(description)
+    print()
     print ("Press C to return to map")
 
     update_state(item["id"] - 1, False, "items")   
@@ -173,7 +175,6 @@ def display_engage(trainer) :
             sprite = trainers["sprite"]
 
 
-    pdb.set_trace(  )
     name_frame(trainer["name"])
     print(sprite)        
     if state.trainers[0][trainer["id"]] == True:
