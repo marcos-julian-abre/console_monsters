@@ -8,13 +8,13 @@ import random
 from system_combat import display_combat
 import pdb
 import state
-from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable, display_healing, display_shop
+from system_interactions import display_interactions, display_pc, display_item, display_engage, display_interactable, display_healing, display_shop, display_menu
 import importlib
 import routes
 
 
 
-current_route = "VID"
+current_route = "PEW"
 section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
@@ -54,7 +54,8 @@ def display_map(player_position, game_route, game_map, characters_position, faci
             
         print()  # Move to the next line after each row
 
-    print ("Z -- Interact")
+    print ("Z -- Interact")    
+    print ("M -- Menu")
 
 
 
@@ -79,8 +80,8 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (22,13)
-facing_position = (22,14)
+player_position = (12,16)
+facing_position = (12,13)
 last_position = player_position
 characters_position = []
 trainers_position = []
@@ -546,6 +547,7 @@ while True:
         get_engage(player_position, facing_position, trainers_position, moving = True)      
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     if any(keyboard.is_pressed(key) for key in ['c']):
+        map_route, map_layout, route_index = get_route(current_route, route)
         display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
     elif keyboard.is_pressed('z'): 
         importlib.reload(state)
@@ -556,6 +558,8 @@ while True:
         get_read(facing_position, interactables_position)
         map_layout = get_obstacle(facing_position, map_layout)
         items_position = get_items(route_index, route) 
-        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position) 
+        display_map(player_position, map_route, map_layout, characters_position, facing_position, items_position, trainers_position)         
+    elif keyboard.is_pressed('m'):
+        display_menu()
     time.sleep(0.15)
 

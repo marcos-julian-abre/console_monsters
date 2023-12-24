@@ -5,7 +5,7 @@ item = [
         "effect" : "heal",
         "power" : 20,
         "description" : "A spray-type wound medicine. It restores the HP of one Pokémon by 20 points.",
-        "poket" : "medicine",
+        "pocket" : "medicine",
         "sprite" : 
         """
 
@@ -49,7 +49,7 @@ item = [
         "effect" : "capture",
         "power" : 1,
         "description" : "A Ball thrown to catch a wild Pokémon. It is designed in a capsule style.",
-        "poket" : "pokeball",
+        "pocket" : "pokeball",
         "sprite" : 
         """
                                                                                                     
@@ -92,7 +92,7 @@ item = [
         "effect" : "cure_poison",
         "power" : 1,
         "description" : "A spray-type medicine. It heals one Pokémon from a poisoning.",
-        "poket" : "medicine",
+        "pocket" : "medicine",
         "sprite" : 
         """
                                                                                                     
