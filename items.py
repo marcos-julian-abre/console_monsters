@@ -1,6 +1,7 @@
 item = [
     {
         "name" : "Potion",
+        "item_id" : 1,
         "item" : "potion",
         "effect" : "heal",
         "power" : 20,
@@ -45,6 +46,7 @@ item = [
     },
     {
         "name" : "Poke Ball",
+        "item_id" : 2,
         "item" : "pokeball",
         "effect" : "capture",
         "power" : 1,
@@ -88,6 +90,7 @@ item = [
     },
     {
         "name" : "Antidote",
+        "item_id" : 3,
         "item" : "antidote",
         "effect" : "cure_poison",
         "power" : 1,

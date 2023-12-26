@@ -14,7 +14,7 @@ import routes
 
 
 
-current_route = "PEW"
+current_route = "VID"
 section = "A"
 route_index = 0
 starting_position = route[route_index]['starting_position']
@@ -80,7 +80,7 @@ def move_player(direction, player_position, facing_position):
 
 
 # Example player starting position
-player_position = (12,16)
+player_position = (12,12)
 facing_position = (12,13)
 last_position = player_position
 characters_position = []

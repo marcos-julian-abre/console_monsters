@@ -152,6 +152,14 @@ def display_item(item) :
         if items["name"] == item["name"] :
             sprite = items["sprite"]
             description = items["description"]
+            item_id = items["item_id"]
+
+
+    for diccionary in state.inventory :
+        if item_id in diccionary :
+            quantity = diccionary[item_id] + 1
+
+    
     
     name_frame(item["name"])
     print(sprite)   
@@ -161,7 +169,9 @@ def display_item(item) :
 
     try:
         if item["id"] :
-            update_state(item["id"] - 1, False, "items")   
+            update_state(item["id"] - 1, False, "items")               
+            update_state(item_id - 1, quantity, "inventory")   
+
     except :
         error = "no id"
 
@@ -256,8 +266,9 @@ def update_state(item_index, new_state, update_type):
     with open(state_file_path, 'w') as file:
         file.write(updated_content)
 
-
     return
+
+
 
 def display_menu():
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
@@ -281,20 +292,19 @@ def display_bag():
     lista_items = []
     i = 0
 
-    try :
-        for items in inventory:
-            for item_info in item_data:
-                if items["name"] == item_info["name"]:
-                    item_info["quantity"] = items["quantity"]
-                    lista_items.append(item_info)
-    except :
-        error = "no items"
+
+    for items in item_data:
+        for dictionary in inventory :
+            if items["item_id"] in dictionary :
+                items["quantity"] = dictionary[items["item_id"]]
+                if items["quantity"] > 0 :
+                    lista_items.append(items)                
 
 
     while i <= 9 :
         print(str(i) + ". ", end=" ")
         try :
-            if lista_items[i] :
+            if lista_items[i] and lista_items[i]["quantity"] > 0:
                 print(lista_items[i]["name"], end=" ")
                 print(lista_items[i]["quantity"], end=" ")
         except : 
@@ -310,109 +320,103 @@ def display_bag():
         if keyboard.is_pressed('c'):   
             return
         try :
-            if lista_items[0] : 
+            if lista_items[0] and lista_items[0]["quantity"] > 0: 
                 if keyboard.is_pressed('0'):   
-                    display_item_menu(0)
+                    display_item_menu(lista_items[0])
         except :
              error = "no item"
         try :
-            if lista_items[1] : 
+            if lista_items[1] and lista_items[1]["quantity"] > 0: 
                 if keyboard.is_pressed('1'):   
-                    display_item_menu(1)
+                    display_item_menu(lista_items[1])
         except :
              error = "no item"
         try :
-            if lista_items[2] : 
+            if lista_items[2] and lista_items[2]["quantity"] > 0:
                 if keyboard.is_pressed('2'):   
-                    display_item_menu(2)
+                    display_item_menu(lista_items[2])
         except :
              error = "no item"
         try :
-            if lista_items[3] : 
+            if lista_items[3] and lista_items[3]["quantity"] > 0: 
                 if keyboard.is_pressed('3'):   
-                    display_item_menu(3)
+                    display_item_menu(lista_items[3])
         except :
              error = "no item"
         try :
-            if lista_items[4] : 
+            if lista_items[4] and lista_items[4]["quantity"] > 0: 
                 if keyboard.is_pressed('4'):   
-                    display_item_menu(4)
+                    display_item_menu(lista_items[4])
         except :
             error = "no item"
         try :
-            if lista_items[5] : 
+            if lista_items[5] and lista_items[5]["quantity"] > 0: 
                 if keyboard.is_pressed('5'):   
-                    display_item_menu(5)
+                    display_item_menu(lista_items[5])
         except :
             error = "no item"
         try :
-            if lista_items[6] : 
+            if lista_items[6] and lista_items[6]["quantity"] > 0: 
                 if keyboard.is_pressed('6'):   
-                    display_item_menu(6)
+                    display_item_menu(lista_items[6])
         except :
             error = "no item"
         try :
-            if lista_items[7] : 
+            if lista_items[7] and lista_items[7]["quantity"] > 0: 
                 if keyboard.is_pressed('7'):   
-                    display_item_menu(7)
+                    display_item_menu(lista_items[7])
         except :
             error = "no item"
         try :
-            if lista_items[8] : 
+            if lista_items[8] and lista_items[8]["quantity"] > 0: 
                 if keyboard.is_pressed('8'):   
-                    display_item_menu(8)
+                    display_item_menu(lista_items[8])
         except :
             error = "no item"
         try :
-            if lista_items[9] : 
+            if lista_items[9] and lista_items[9]["quantity"] > 0: 
                 if keyboard.is_pressed('9'):   
-                    display_item_menu(9)
+                    display_item_menu(lista_items[9])
         except :
             error = "no item"
 
 
 
 
-def display_item_menu(id):        
+def display_item_menu(item):        
     os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen
     importlib.reload(state)
     inventory = state.inventory
-    item = []
 
 
-    for items in item_data:
-        if items["name"] == inventory[id]["name"] :
-            items["quantity"] = inventory[id]["quantity"]
-            item = items
-
-    
     name_frame(item["name"])
-    print("   Quantity : " + str(item["quantity"]))   
-    message_frame(item["description"])
     print()
     print()
 
 
     if item["pocket"] == "medicine":
-        print("1 - Use")
-        print("2 - Info")       
+        print("U - Use")
+        print("I - Info")       
         print ("C - Cancel")
         
         while True :
-            if keyboard.is_pressed('1'):   
-                return
-            if keyboard.is_pressed('2'): 
+            if keyboard.is_pressed('u'):                  
+                importlib.reload(state)
+                update_state(item["item_id"] - 1, item["quantity"] - 1, "inventory")        
+                print("Item Used. Press C to Return")           
+                return               
+            if keyboard.is_pressed('i'): 
                 display_item(item)
             if keyboard.is_pressed('c'):   
                 return
 
 
     if item["pocket"] == "pokeball":
-        print("1 - Info")       
+        print("I - Info")       
         print("C - Cancel")
 
         while True :
-            if keyboard.is_pressed('1'):   
+            if keyboard.is_pressed('i'):   
                 display_item(item)
             if keyboard.is_pressed('c'):   
                 return
