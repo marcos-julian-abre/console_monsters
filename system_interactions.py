@@ -195,11 +195,33 @@ def display_healing() :
 
 
 
-def display_shop() :
-    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen   
+def display_shop(shop_route) :
+    os.system("cls" if os.name == "nt" else "clear")  # Clear the console screen  
+    shop = [] 
+
+    for shop_items in shop_route :
+        for items in item_data :
+            if shop_items["name"] == item_data["name"] :
+                shop_items = items
+                shop_items["price"] = items["price"]
+                shop.append(shop_items)
 
     print("Shop")
-    print ("Press C to return to map")
+    
+    while i <= 9 :
+        try :
+            if shop[i] :                
+                print(str(i) + ". ", end=" ")
+                print(shop[i]["name"], end=" ")
+                print(shop[i]["price"], end=" ")
+        except : 
+            error = "not enough items in inventory"
+        print()
+        i = i + 1
+
+
+    print()
+    print ("C -- Return")
 
     while True:
         if keyboard.is_pressed('c'):        
@@ -298,8 +320,11 @@ def display_bag():
             if items["item_id"] in dictionary :
                 items["quantity"] = dictionary[items["item_id"]]
                 if items["quantity"] > 0 :
-                    lista_items.append(items)                
+                    lista_items.append(items)            
 
+
+    print("Bag")    
+    print()
 
     while i <= 9 :
         print(str(i) + ". ", end=" ")

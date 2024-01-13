@@ -337,7 +337,7 @@ def get_interaction(facing_position, characters_position) :
 
 
 
-def get_action(facing_position, map_layout) : 
+def get_action(facing_position, map_layout, route, route_index) : 
     for row_index, row in enumerate(map_layout):
         for col_index, cell in enumerate(row):
             if (row_index, col_index) == facing_position :
@@ -345,8 +345,8 @@ def get_action(facing_position, map_layout) :
                     display_pc()    
                 if cell == "+" : #UPDATE WHEN POKEMON TEAM
                     display_healing()  
-                if cell == "@" : #UPDATE WHEN SHOP
-                    display_shop()       
+                if cell == "@" : 
+                    display_shop(route[route_index]["shop"])
     return
 
 
@@ -552,7 +552,7 @@ while True:
     elif keyboard.is_pressed('z'): 
         importlib.reload(state)
         get_interaction(facing_position, characters_position) #UPDATE WHEN BAG IS IMPLEMENTED'
-        get_action(facing_position, map_layout) 
+        get_action(facing_position, map_layout, route, route_index) 
         get_map_item(facing_position, items_position) #UPDATE WHEN BAG IS IMPLEMENTED
         get_engage(player_position, facing_position, trainers_position, moving = False)#UPDATE WHEN CCOMBAT IS IMPLEMENTED
         get_read(facing_position, interactables_position)

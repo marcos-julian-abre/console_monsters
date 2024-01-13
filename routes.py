@@ -2830,6 +2830,20 @@ route = [
             ],
         "trainer" : [],
         "items" : [],
+        "shop" :[
+            {
+            "name" : "Potion",
+            "price" : 300,
+            },
+            {
+            "name" : "Pokeball",
+            "price" : 200,
+            },
+            {
+            "name" : "Antidote",
+            "price" : 100,
+            },
+            ],
         "interactables" : [
             {   
                 "type" : "shopshell",
@@ -3139,7 +3153,21 @@ route = [
             },          
             ],
         "trainer" : [],
-        "items" : [],
+        "items" : [],        
+        "shop" :[
+            {
+            "name" : "Potion",
+            "price" : 300,
+            },
+            {
+            "name" : "Pokeball",
+            "price" : 200,
+            },
+            {
+            "name" : "Antidote",
+            "price" : 100,
+            },
+            ],
         "interactables" : [
             {   
                 "type" : "shopshell",
